@@ -1,0 +1,18 @@
+image:
+  repository: your-repo-or-dockerhub.com
+  tag: latest
+  pullPolicy: Always
+
+discoveryUrl: https://data.smartcolumbusos.com/api/v1
+
+mssql:
+  database: parking_prediction
+  dataLimitMonths: "24"
+
+resources:
+  limits:
+    memory: 512Mi
+    cpu: 500m
+  requests:
+    memory: 512Mi
+    cpu: 500m

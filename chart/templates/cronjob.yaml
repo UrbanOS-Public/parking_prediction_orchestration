@@ -1,0 +1,37 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  schedule: "40 3 * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            app: {{ .Chart.Name }}
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: {{ .Chart.Name }}
+            image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            env:
+            - name: SQL_SERVER_URL
+              value: {{ .Values.mssql.server }}
+            - name: SQL_SERVER_DATABASE
+              value: {{ .Values.mssql.database }}
+            - name: SQL_SERVER_USERNAME
+              value: {{ .Values.mssql.username }}
+            - name: SQL_SERVER_PASSWORD
+              value: {{ .Values.mssql.password }}
+            - name: SQL_SERVER_DATA_LIMIT_MONTHS
+              value: {{ quote .Values.mssql.dataLimitMonths }}
+            - name: DISCOVERY_URL
+              value: {{ .Values.discoveryUrl }}
+            resources:
+{{ toYaml .Values.resources | indent 14 }}

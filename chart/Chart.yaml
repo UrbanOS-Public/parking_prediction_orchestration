@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Predictive parking data flow
+name: predictive-parking-etl
+version: 1.0.0
